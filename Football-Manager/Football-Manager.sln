@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM", "FM\FM.csproj", "{03E91DA2-9D65-49F9-8054-C2832B643DDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM.Core", "FM.Core\FM.Core.csproj", "{79EC55D2-B821-4BCD-97A3-B7B600B787B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03E91DA2-9D65-49F9-8054-C2832B643DDB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{03E91DA2-9D65-49F9-8054-C2832B643DDB}.Debug|x86.ActiveCfg = Debug|x86
+		{03E91DA2-9D65-49F9-8054-C2832B643DDB}.Debug|x86.Build.0 = Debug|x86
+		{03E91DA2-9D65-49F9-8054-C2832B643DDB}.Release|Any CPU.ActiveCfg = Release|x86
+		{03E91DA2-9D65-49F9-8054-C2832B643DDB}.Release|x86.ActiveCfg = Release|x86
+		{03E91DA2-9D65-49F9-8054-C2832B643DDB}.Release|x86.Build.0 = Release|x86
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Debug|x86.Build.0 = Debug|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Release|x86.ActiveCfg = Release|Any CPU
+		{79EC55D2-B821-4BCD-97A3-B7B600B787B8}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF79B492-49C2-4BB3-99D0-E8418F38B3E4}
+	EndGlobalSection
+EndGlobal
