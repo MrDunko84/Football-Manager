@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FM.Core
+namespace FM.Core.Match
 {
-    public class Class1
+    public class Pitch
     {
     }
 }
