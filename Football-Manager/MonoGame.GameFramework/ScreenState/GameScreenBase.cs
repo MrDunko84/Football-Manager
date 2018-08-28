@@ -61,7 +61,7 @@ namespace MonoGame.GameFramework.ScreenState
         /// <summary>
         ///     Gets the current screen transition state
         /// </summary>
-        public ScreenState State { get; set; } = ScreenState.In;
+        public ScreenState ScreenState { get; set; } = ScreenState.In;
 
         /// <summary>
         ///     Determine if the screen is exiting, transitioning out
@@ -72,8 +72,8 @@ namespace MonoGame.GameFramework.ScreenState
         ///     Determine if the screen is current active
         /// </summary>
         public bool IsActive => !_otherScreenHasFocus &&
-                                (State == ScreenState.In ||
-                                 State == ScreenState.Active);
+                                (ScreenState == ScreenState.In ||
+                                 ScreenState == ScreenState.Active);
 
 
         private bool _otherScreenHasFocus;
@@ -81,7 +81,7 @@ namespace MonoGame.GameFramework.ScreenState
         /// <summary>
         ///     Gets the screen manager that this screen belongs to
         /// </summary>
-        public ScreenManager Manager { get; internal set; }
+        public ScreenManager ScreenManager { get; internal set; }
 
         public GestureType EnableGestures
         {
@@ -89,7 +89,7 @@ namespace MonoGame.GameFramework.ScreenState
             protected set
             {
                 _enableGestures = value;
-                if (State == ScreenState.Active)
+                if (ScreenState == ScreenState.Active)
                 {
                     TouchPanel.EnabledGestures = value;
                 }
@@ -123,21 +123,21 @@ namespace MonoGame.GameFramework.ScreenState
 
             if (IsExiting)
             {
-                State = ScreenState.Out;
+                ScreenState = ScreenState.Out;
                 if (!UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut))
                 {
-                    // TODO: ScreenManager
+                    ScreenManager.RemoveScreen(this);
                 }
 
             } else if (coveredByOtherScreen)
             {
-                State = UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut)
+                ScreenState = UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut)
                         ? ScreenState.Out
                         : ScreenState.Hidden;
             }
             else
             {
-                State = UpdateTransition(gameTime, TransitionInTime, ScreenStateDirection.TransitionIn)
+                ScreenState = UpdateTransition(gameTime, TransitionInTime, ScreenStateDirection.TransitionIn)
                         ? ScreenState.In
                         : ScreenState.Active;
             }
@@ -195,7 +195,7 @@ namespace MonoGame.GameFramework.ScreenState
         {
             if (TransitionOutTime == TimeSpan.Zero)
             {
-                // TODO: Screen Manager
+                ScreenManager.RemoveScreen(this);
             }
             else
             {
@@ -203,7 +203,13 @@ namespace MonoGame.GameFramework.ScreenState
             }
         }
 
-        //public T Load<T>(string assetName);
+        /// <summary>
+        ///     Helper method to load assets from the screen managers content
+        /// </summary>
+        /// <typeparam name="T">Represents the type of asset</typeparam>
+        /// <param name="assetName">Asset name, relative to the root directory</param>
+        /// <returns></returns>
+        public T Load<T>(string assetName) { return ScreenManager.Game.Content.Load<T>(assetName); }
 
 
     }

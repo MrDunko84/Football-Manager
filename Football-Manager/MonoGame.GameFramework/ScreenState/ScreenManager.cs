@@ -15,14 +15,14 @@ namespace MonoGame.GameFramework.ScreenState
         : DrawableObjectBase
     {
 
-        private List<GameScreenBase> _screens = new List<GameScreenBase>();
-        private List<GameScreenBase> _screensToUpdate = new List<GameScreenBase>();
+        private readonly List<GameScreenBase> _screens = new List<GameScreenBase>();
+        private readonly List<GameScreenBase> _screensToUpdate = new List<GameScreenBase>();
 
         private Texture2D _blankTexture;
 
         private bool _isInitialised;
 
-        public SpriteBatch Batch { get; private set; }
+        public SpriteBatch SpriteBatch { get; private set; }
 
         public bool TraceEnabled { get; set; } = false;
 
@@ -54,7 +54,7 @@ namespace MonoGame.GameFramework.ScreenState
         /// </summary>
         protected override void LoadContent()
         {
-            Batch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
             
             _screens?.ForEach((x) => x.LoadContent());
         }
@@ -81,7 +81,7 @@ namespace MonoGame.GameFramework.ScreenState
             var otherScreenHasFocus = !Game.IsActive;
             var coveredByOtherScreen = false;
 
-            while (!_screensToUpdate.Any())
+            while (_screensToUpdate.Any())
             {
                 var topMostScreenIndex = _screensToUpdate.Count - 1;
                 var screen = _screensToUpdate[topMostScreenIndex];
@@ -91,8 +91,8 @@ namespace MonoGame.GameFramework.ScreenState
                 // Update the screen
                 screen.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
-                if (screen.State != ScreenState.In && 
-                    screen.State != ScreenState.Active) continue;
+                if (screen.ScreenState != ScreenState.In && 
+                    screen.ScreenState != ScreenState.Active) continue;
 
                 if (!otherScreenHasFocus)
                 {
@@ -131,7 +131,7 @@ namespace MonoGame.GameFramework.ScreenState
         {
             _screens.ForEach((x) =>
                              {
-                                 if (x.State == ScreenState.Hidden) return;
+                                 if (x.ScreenState == ScreenState.Hidden) return;
                                  x.Draw(gameTime);
                              });
         }
@@ -141,7 +141,7 @@ namespace MonoGame.GameFramework.ScreenState
         /// </summary>
         public void AddScreen(GameScreenBase screen)
         {
-            screen.Manager = this;
+            screen.ScreenManager = this;
             screen.IsExiting = false;
 
             if (_isInitialised)

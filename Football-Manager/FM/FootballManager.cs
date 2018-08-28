@@ -1,21 +1,30 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using FM.Core.Screens;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.GameFramework.Screens;
+using MonoGame.GameFramework.ScreenState;
 
 namespace FM
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class FootballManager : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private ScreenManager _screenManager;
 
-        public Game1()
+        public FootballManager()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            _screenManager = new ScreenManager(this);
+            _screenManager.AddScreen(new BackgroundScreen());
+            _screenManager.AddScreen(new MatchScreen());
+
+            Components.Add(_screenManager);
+
         }
 
         /// <summary>
@@ -38,8 +47,6 @@ namespace FM
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 

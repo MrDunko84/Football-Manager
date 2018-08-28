@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame.GameFramework.GameObjects
 {
@@ -17,11 +18,6 @@ namespace MonoGame.GameFramework.GameObjects
         }
 
         /// <summary>
-        ///     The number of calls that have been made to the Update method
-        /// </summary>
-        public int UpdateCount { get; private set; }
-
-        /// <summary>
         ///     A string that can be used to Tag the object for identification
         /// </summary>
         public string Tag { get; set; }
@@ -30,11 +26,21 @@ namespace MonoGame.GameFramework.GameObjects
         /// <inheritdoc />
         public abstract override void Draw(GameTime gameTime);
 
-        /// <inheritdoc />
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        ///     Helper method to draw the outline of a rectangle
+        /// </summary>
+        public void DrawBorder(SpriteBatch spritebatch, Rectangle rectangle, Color color, int borderWidth)
         {
-            UpdateCount+= 1;
-            base.Update(gameTime);
+
+            var texture = new Texture2D(Game.GraphicsDevice, 1, 1);
+            texture.SetData(new[] {color});
+
+            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, borderWidth, rectangle.Height), color );
+            spritebatch.Draw(texture, new Rectangle(rectangle.Right, rectangle.Top, borderWidth, rectangle.Height), color );
+            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, borderWidth), color );
+            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width + borderWidth, borderWidth), color );
+
         }
+
     }
 }

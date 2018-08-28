@@ -42,7 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="FootballManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +66,10 @@
     <ProjectReference Include="..\FM.Core\FM.Core.csproj">
       <Project>{79ec55d2-b821-4bcd-97a3-b7b600b787b8}</Project>
       <Name>FM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame.GameFramework\MonoGame.GameFramework.csproj">
+      <Project>{5BF67B89-8B7B-445B-8F82-CDA05DA30588}</Project>
+      <Name>MonoGame.GameFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
