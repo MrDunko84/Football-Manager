@@ -12,9 +12,12 @@ namespace FM.Core.Match
     {
         private readonly GameScreenBase _screen;
         private readonly SpriteBatch _spriteBatch;
+
+
         private Team _awayTeam;
         private Team _homeTeam;
 
+        
         /// <inheritdoc />
         public Pitch(Game game,
                      SpriteBatch spriteBatch,
@@ -25,17 +28,19 @@ namespace FM.Core.Match
             _screen = screen;
 
             Rnd = new Random((int) DateTime.Now.Ticks);
-
+            Scale = 3;
         }
 
         public Rectangle Bounds { get; private set; }
 
         public Random Rnd { get; }
 
+        public int Scale { get; }
+
         /// <inheritdoc />
         public override void Initialize()
         {
-            Bounds = new Rectangle(300, 50, 80, 120);
+            Bounds = new Rectangle(300, 50, 80 * Scale, 120 * Scale);
 
             _homeTeam = new Team(Game, _spriteBatch, _screen, this, Color.Red);
             _awayTeam = new Team(Game, _spriteBatch, _screen, this, Color.White);

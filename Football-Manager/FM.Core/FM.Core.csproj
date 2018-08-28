@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Match\Ball.cs" />
+    <Compile Include="Match\IMoveableObject.cs" />
     <Compile Include="Match\Pitch.cs" />
     <Compile Include="Match\Player.cs" />
     <Compile Include="Match\Team.cs" />
