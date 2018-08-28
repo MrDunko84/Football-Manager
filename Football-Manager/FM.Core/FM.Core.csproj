@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Club\Player.cs" />
     <Compile Include="Match\Pitch.cs" />
+    <Compile Include="Match\Player.cs" />
+    <Compile Include="Match\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\MatchScreen.cs" />
   </ItemGroup>
@@ -58,6 +59,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Club\" />
     <Folder Include="Match\AI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

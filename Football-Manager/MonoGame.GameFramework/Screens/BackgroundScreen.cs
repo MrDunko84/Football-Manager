@@ -5,6 +5,7 @@ using MonoGame.GameFramework.ScreenState;
 
 namespace MonoGame.GameFramework.Screens
 {
+
     public class BackgroundScreen
         : GameScreenBase
     {
@@ -25,10 +26,7 @@ namespace MonoGame.GameFramework.Screens
         }
 
         /// <inheritdoc />
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
-        {
-            base.Update(gameTime, otherScreenHasFocus, false);
-        }
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen) { base.Update(gameTime, otherScreenHasFocus, false); }
 
         /// <inheritdoc />
         public override void Draw(GameTime gameTime)
@@ -44,6 +42,6 @@ namespace MonoGame.GameFramework.Screens
             spriteBatch.End();
 
         }
-
     }
+
 }

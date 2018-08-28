@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace MonoGame.GameFramework.ScreenState
 {
+
     /// <summary>
     ///     Describes the screen transition state
     /// </summary>
@@ -28,9 +29,14 @@ namespace MonoGame.GameFramework.ScreenState
     public abstract class GameScreenBase
     {
 
+        private GestureType _enableGestures = GestureType.None;
+
+
+        private bool _otherScreenHasFocus;
+
         /// <summary>
-        /// Determine if the this screen is an overlay screen,
-        /// this will leave current screen transitioned in
+        ///     Determine if the this screen is an overlay screen,
+        ///     this will leave current screen transitioned in
         /// </summary>
         public bool IsOverlay { get; set; } = false;
 
@@ -66,7 +72,7 @@ namespace MonoGame.GameFramework.ScreenState
         /// <summary>
         ///     Determine if the screen is exiting, transitioning out
         /// </summary>
-        public bool IsExiting { get; protected internal set; } = false;
+        public bool IsExiting { get; protected internal set; }
 
         /// <summary>
         ///     Determine if the screen is current active
@@ -74,9 +80,6 @@ namespace MonoGame.GameFramework.ScreenState
         public bool IsActive => !_otherScreenHasFocus &&
                                 (ScreenState == ScreenState.In ||
                                  ScreenState == ScreenState.Active);
-
-
-        private bool _otherScreenHasFocus;
 
         /// <summary>
         ///     Gets the screen manager that this screen belongs to
@@ -89,14 +92,9 @@ namespace MonoGame.GameFramework.ScreenState
             protected set
             {
                 _enableGestures = value;
-                if (ScreenState == ScreenState.Active)
-                {
-                    TouchPanel.EnabledGestures = value;
-                }
+                if (ScreenState == ScreenState.Active) TouchPanel.EnabledGestures = value;
             }
         }
-
-        private GestureType _enableGestures = GestureType.None;
 
         /// <summary>
         ///     Determines whether the screen will be recorded into the screen manager's state
@@ -107,12 +105,12 @@ namespace MonoGame.GameFramework.ScreenState
         /// <summary>
         ///     Load graphics content for the screen
         /// </summary>
-        public virtual void LoadContent() {}
+        public virtual void LoadContent() { }
 
         /// <summary>
         ///     Unload graphics content for the screen
         /// </summary>
-        public virtual void UnloadContent() {}
+        public virtual void UnloadContent() { }
 
         /// <summary>
         ///     Allows the screen to run logic, has transition logic built in
@@ -124,24 +122,18 @@ namespace MonoGame.GameFramework.ScreenState
             if (IsExiting)
             {
                 ScreenState = ScreenState.Out;
-                if (!UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut))
-                {
-                    ScreenManager.RemoveScreen(this);
-                }
+                if (!UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut)) ScreenManager.RemoveScreen(this);
 
-            } else if (coveredByOtherScreen)
+            }
+            else if (coveredByOtherScreen)
             {
-                ScreenState = UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut)
-                        ? ScreenState.Out
-                        : ScreenState.Hidden;
+                ScreenState = UpdateTransition(gameTime, TransitionOutTime, ScreenStateDirection.TransitionOut) ? ScreenState.Out : ScreenState.Hidden;
             }
             else
             {
-                ScreenState = UpdateTransition(gameTime, TransitionInTime, ScreenStateDirection.TransitionIn)
-                        ? ScreenState.In
-                        : ScreenState.Active;
+                ScreenState = UpdateTransition(gameTime, TransitionInTime, ScreenStateDirection.TransitionIn) ? ScreenState.In : ScreenState.Active;
             }
-            
+
         }
 
         /// <summary>
@@ -151,13 +143,13 @@ namespace MonoGame.GameFramework.ScreenState
         {
 
             // Determine how much we should move by
-            var transitionDelta = time == TimeSpan.Zero
-                ? 1.0f
-                : (float) (gameTime.ElapsedGameTime.TotalMilliseconds / 
-                           time.TotalMilliseconds);
+            var transitionDelta = time == TimeSpan.Zero ?
+                1.0f :
+                (float) (gameTime.ElapsedGameTime.TotalMilliseconds /
+                         time.TotalMilliseconds);
 
             // Update the transition position
-            TransitionPosition += transitionDelta * (int)direction;
+            TransitionPosition += transitionDelta * (int) direction;
 
             // Determine if we are at the end of the transition
             if ((direction >= 0 || !(TransitionPosition <= 0)) &&
@@ -173,19 +165,19 @@ namespace MonoGame.GameFramework.ScreenState
         ///     This is called when the screen should draw itself
         /// </summary>
         /// <param name="gameTime"></param>
-        public virtual void Draw(GameTime gameTime){}
+        public virtual void Draw(GameTime gameTime) { }
 
         /// <summary>
         ///     Tells the screen to serilise it's state into the passed in stream
         /// </summary>
         /// <param name="stream"></param>
-        public virtual void Serialise(Stream stream){}
+        public virtual void Serialise(Stream stream) { }
 
         /// <summary>
         ///     Tells the screen to deserialise it's state into the passed in stream
         /// </summary>
         /// <param name="stream"></param>
-        public virtual void Deserialise(Stream stream){}
+        public virtual void Deserialise(Stream stream) { }
 
 
         /// <summary>
@@ -194,13 +186,9 @@ namespace MonoGame.GameFramework.ScreenState
         public void ExitScreen()
         {
             if (TransitionOutTime == TimeSpan.Zero)
-            {
                 ScreenManager.RemoveScreen(this);
-            }
             else
-            {
                 IsExiting = true;
-            }
         }
 
         /// <summary>
@@ -210,7 +198,6 @@ namespace MonoGame.GameFramework.ScreenState
         /// <param name="assetName">Asset name, relative to the root directory</param>
         /// <returns></returns>
         public T Load<T>(string assetName) { return ScreenManager.Game.Content.Load<T>(assetName); }
-
-
     }
+
 }

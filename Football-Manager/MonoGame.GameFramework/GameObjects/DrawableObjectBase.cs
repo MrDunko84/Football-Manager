@@ -12,7 +12,7 @@ namespace MonoGame.GameFramework.GameObjects
     {
 
         /// <inheritdoc />
-        protected DrawableObjectBase(Game game) 
+        protected DrawableObjectBase(Game game)
             : base(game)
         {
         }
@@ -35,12 +35,12 @@ namespace MonoGame.GameFramework.GameObjects
             var texture = new Texture2D(Game.GraphicsDevice, 1, 1);
             texture.SetData(new[] {color});
 
-            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, borderWidth, rectangle.Height), color );
-            spritebatch.Draw(texture, new Rectangle(rectangle.Right, rectangle.Top, borderWidth, rectangle.Height), color );
-            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, borderWidth), color );
-            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width + borderWidth, borderWidth), color );
+            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, borderWidth, rectangle.Height), color);
+            spritebatch.Draw(texture, new Rectangle(rectangle.Right, rectangle.Top, borderWidth, rectangle.Height), color);
+            spritebatch.Draw(texture, new Rectangle(rectangle.Left + borderWidth, rectangle.Top, rectangle.Width - borderWidth, borderWidth), color);
+            spritebatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width + borderWidth, borderWidth), color);
 
         }
-
     }
+
 }

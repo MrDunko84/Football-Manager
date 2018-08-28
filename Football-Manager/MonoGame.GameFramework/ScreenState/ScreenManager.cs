@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.GameFramework.GameObjects;
 
 namespace MonoGame.GameFramework.ScreenState
 {
+
     public class ScreenManager
         : DrawableObjectBase
     {
@@ -22,20 +20,20 @@ namespace MonoGame.GameFramework.ScreenState
 
         private bool _isInitialised;
 
-        public SpriteBatch SpriteBatch { get; private set; }
-
-        public bool TraceEnabled { get; set; } = false;
-
 
         /// <inheritdoc />
         /// <summary>
         ///     Constructs a new screen manager component
         /// </summary>
-        public ScreenManager(Game game) 
+        public ScreenManager(Game game)
             : base(game)
         {
             TouchPanel.EnabledGestures = GestureType.None;
         }
+
+        public SpriteBatch SpriteBatch { get; private set; }
+
+        public bool TraceEnabled { get; set; } = false;
 
 
         /// <inheritdoc />
@@ -50,31 +48,28 @@ namespace MonoGame.GameFramework.ScreenState
 
         /// <inheritdoc />
         /// <summary>
-        ///     Loads the graphics content 
+        ///     Loads the graphics content
         /// </summary>
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            _screens?.ForEach((x) => x.LoadContent());
+
+            _screens?.ForEach(x => x.LoadContent());
         }
 
         /// <inheritdoc />
         /// <summary>
-        /// Unload the graphics content
+        ///     Unload the graphics content
         /// </summary>
-        protected override void UnloadContent()
-        {
-            _screens?.ForEach((x) => x.UnloadContent());
-        }
+        protected override void UnloadContent() { _screens?.ForEach(x => x.UnloadContent()); }
 
         /// <inheritdoc />
         /// <summary>
-        ///     Allows each screen to run logic 
+        ///     Allows each screen to run logic
         /// </summary>
         public override void Update(GameTime gameTime)
         {
-            
+
             _screensToUpdate.Clear();
             _screensToUpdate.AddRange(_screens);
 
@@ -91,26 +86,17 @@ namespace MonoGame.GameFramework.ScreenState
                 // Update the screen
                 screen.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
-                if (screen.ScreenState != ScreenState.In && 
+                if (screen.ScreenState != ScreenState.In &&
                     screen.ScreenState != ScreenState.Active) continue;
 
-                if (!otherScreenHasFocus)
-                {
-                    otherScreenHasFocus = true;
-                }
+                if (!otherScreenHasFocus) otherScreenHasFocus = true;
 
-                if (!screen.IsOverlay)
-                {
-                    coveredByOtherScreen = true;
-                }
+                if (!screen.IsOverlay) coveredByOtherScreen = true;
 
             }
 
             // Trace screens
-            if (TraceEnabled)
-            {
-                TraceScreens();
-            }
+            if (TraceEnabled) TraceScreens();
 
 
         }
@@ -118,10 +104,7 @@ namespace MonoGame.GameFramework.ScreenState
         /// <summary>
         ///     Prints out a list of all the screen, for debugging
         /// </summary>
-        private void TraceScreens()
-        {
-            Console.WriteLine(string.Join(", ", _screens.Select((x) => x.GetType().Name)));
-        }
+        private void TraceScreens() { Console.WriteLine(string.Join(", ", _screens.Select(x => x.GetType().Name))); }
 
         /// <inheritdoc />
         /// <summary>
@@ -129,11 +112,11 @@ namespace MonoGame.GameFramework.ScreenState
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            _screens.ForEach((x) =>
-                             {
-                                 if (x.ScreenState == ScreenState.Hidden) return;
-                                 x.Draw(gameTime);
-                             });
+            _screens.ForEach(x =>
+            {
+                if (x.ScreenState == ScreenState.Hidden) return;
+                x.Draw(gameTime);
+            });
         }
 
         /// <summary>
@@ -144,10 +127,7 @@ namespace MonoGame.GameFramework.ScreenState
             screen.ScreenManager = this;
             screen.IsExiting = false;
 
-            if (_isInitialised)
-            {
-                screen.LoadContent();
-            }
+            if (_isInitialised) screen.LoadContent();
 
             _screens.Add(screen);
 
@@ -160,24 +140,15 @@ namespace MonoGame.GameFramework.ScreenState
         /// </summary>
         public void RemoveScreen(GameScreenBase screen)
         {
-            if (_isInitialised)
-            {
-                screen.UnloadContent();
-            }
+            if (_isInitialised) screen.UnloadContent();
 
             _screens.Remove(screen);
             _screensToUpdate.Remove(screen);
 
-            if (_screens.Any())
-            {
-                TouchPanel.EnabledGestures = _screens.Last().EnableGestures;
-            }
+            if (_screens.Any()) TouchPanel.EnabledGestures = _screens.Last().EnableGestures;
         }
 
-        public GameScreenBase[] GetScreens()
-        {
-            return _screens.ToArray();
-        }
-
+        public GameScreenBase[] GetScreens() { return _screens.ToArray(); }
     }
+
 }

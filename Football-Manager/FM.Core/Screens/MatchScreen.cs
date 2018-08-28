@@ -6,12 +6,14 @@ using MonoGame.GameFramework.ScreenState;
 
 namespace FM.Core.Screens
 {
+
     public class MatchScreen
         : GameScreenBase
     {
 
         private Texture2D _backgroundTexture;
         private Pitch _pitch;
+
 
         public MatchScreen()
         {
@@ -28,12 +30,12 @@ namespace FM.Core.Screens
 
             _pitch = new Pitch(ScreenManager.Game, ScreenManager.SpriteBatch, this);
             _pitch.Initialize();
+
         }
 
         /// <inheritdoc />
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-
             _pitch.Update(gameTime);
 
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -47,13 +49,14 @@ namespace FM.Core.Screens
             var viewport = ScreenManager.GraphicsDevice.Viewport;
 
             spriteBatch.Begin();
-            
+
             spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.DarkGreen * TransitionAlpha);
+
             _pitch.Draw(gameTime);
 
             spriteBatch.End();
 
         }
-
     }
+
 }
